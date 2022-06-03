@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}
+Manage Product Listings
+{% endblock %}
+
+{% block content %}
+<h1>Create New Listing</h1>
+<form method="POST" class="form-signin" style="color:white">
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-dark" style="color:white">
+        {{ form.hidden_tag() }}
+
+        {{ form.category.label() }}
+        {{ form.category(class='form-control', placeholder="Product Category") }}
+
+        {{ form.title.label() }}
+        {{ form.title(class='form-control', placeholder="Product Title") }}
+
+        {{ form.name.label() }}
+        {{ form.name(class='form-control', placeholder="Specific Product Name") }}
+
+        {{ form.desc.label() }}
+        {{ form.desc(class='form-control', placeholder="A short description of the product") }}
+
+        {{ form.price.label() }}
+        {{ form.price(class='form-control', placeholder="Enter in price w/ format: $100.00") }}
+
+        {{ form.quantity.label() }}
+        {{ form.quantity(class='form-control', placeholder="Number of Items") }}
+
+        <br>
+
+        {{ form.submit(class='btn btn-lg btn-block btn-primary') }}
+    </div>
+</form>
+<br>
+<h3>Your Active Listings</h3>
+
+<br>
+
+<table class="table table-hover table-dark">
+    <thead>
+    <tr>
+        <!-- Your Columns HERE -->
+        <th scope="col">Seller</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Options</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Your rows inside the table HERE: -->
+    {% for item in active_products %}
+    <tr>
+        <td>{{ item.sellerEmail }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.pricde }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>
+            <a class="btn btn-outline btn-info" href="{{ url_for('remove_products', email=current_user.email, listID=item.listID) }}">Remove</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+<br>
+<h3>Your Previous Listings</h3>
+
+<br>
+
+<table class="table table-hover table-dark">
+    <thead>
+    <tr>
+        <!-- Your Columns HERE -->
+        <th scope="col">Seller</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Time Elapsed</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Your rows inside the table HERE: -->
+    {% for item in removed_products %}
+    <tr>
+        <td>{{ item.sellerEmail }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.pricde }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>
+            {% if item.stop_time != None and item.start_time != None %}
+            {{ item.stop_time - item.start_time }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}

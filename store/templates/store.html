@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+    Store Page
+{% endblock %}
+
+{% block content %}
+<h1>Store</h1>
+ <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+          <a class="navbar-brand" href="#">Filters: </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+             <ul class="navbar-nav mr-auto">
+                 <li class="nav-item">
+                        <a class="nav-link" color="whitesmoke" href="{{ url_for('store_page', category='Root') }}">Root</a>
+                 </li>
+                 {% for cat in display_categories: %}
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{{ url_for('store_page', category=cat.name) }}">{{ cat.name }}</a>
+                    </li>
+                 {% endfor %}
+             </ul>
+          </div>
+ </nav>
+<table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <!-- Your Columns HERE -->
+                <th scope="col">Seller</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+        <!-- Your rows inside the table HERE: -->
+            {% for item in products %}
+                <!-- I chose not to display items w/ no quantity as I don't know how you would sell that -->
+                {% if item.quantity != 0 %}
+                <tr>
+                    <td>{{ item.sellerEmail }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.pricde }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <button class="btn btn-outline btn-info">More Info</button>
+                        <button class="btn btn-outline btn-success">Purchase</button>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

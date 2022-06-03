@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}
+    Account Overview
+{% endblock %}
+
+{% block content %}
+<h1>Account Overview</h1>
+<table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <!-- Your Columns HERE -->
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Home Address</th>
+                <th scope="col">Billing Address</th>
+                <th scope="col">Credit Cards</th>
+                <th scope="col">Change Password</th>
+            </tr>
+        </thead>
+        <tbody>
+        <!-- Your rows inside the table HERE: -->
+                <tr>
+                    <td>{{ buyer_info.firstName+' '+buyer_info.lastName }}</td>
+                    <td>{{ buyer_info.age }}</td>
+                    <td>{{ buyer_info.gender }}</td>
+                    <td>{{ home_addr_info.street_num|string+' '+home_addr_info.street_name+', '+home_zipcode_info.city+
+                        ', '+home_zipcode_info.state_id}}</td>
+                    <td>{{ billing_addr_info.street_num|string+' '+billing_addr_info.street_name+', '+
+                        billing_zipcode_info.city+', '+billing_zipcode_info.state_id}}</td>
+                    <td>
+                        {% for cc in cc_info: %}
+                            Ending In: {{cc.cc_num[-4:]}}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a class="btn btn-outline btn-info" href="{{ url_for('change_password_page', email=current_user.email) }}">Change Password</a>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+{% endblock %}
